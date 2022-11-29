@@ -33,7 +33,7 @@ def main():
     while 1:
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
-                font = pygame.font.Font('freesansbold.ttf', 32)
+                font = pygame.font.Font('freesansbold.ttf', 28)
                 if event.key == pygame.K_q:
                     print(globIndex)
                     if globIndex < 3:
@@ -44,59 +44,59 @@ def main():
                         text = font.render('NONE', True, white, black)
                         textRect = text.get_rect()
                         textRect.center = (
-                            (WINDOW_HEIGHT // 2)+150, (WINDOW_WIDTH // 2) + 400)
+                            (WINDOW_HEIGHT // 2)+50, (WINDOW_WIDTH // 2) + 350)
                         screen.blit(text, textRect)
                         break
                     if globIndex == 0:
                         text = font.render('NONE', True, black, black)
                         textRect = text.get_rect()
                         textRect.center = (
-                            (WINDOW_HEIGHT // 2)+150, (WINDOW_WIDTH // 2) + 400)
+                            (WINDOW_HEIGHT // 2)+50, (WINDOW_WIDTH // 2) + 350)
                         screen.blit(text, textRect)
 
                         text = font.render('WALL', True, white, black)
                         textRect = text.get_rect()
                         textRect.center = (
-                            (WINDOW_HEIGHT // 2)+150, (WINDOW_WIDTH // 2) + 400)
+                            (WINDOW_HEIGHT // 2)+50, (WINDOW_WIDTH // 2) + 350)
                         screen.blit(text, textRect)
                         break
                     if globIndex == 1:
                         text = font.render('WALL', True, black, black)
                         textRect = text.get_rect()
                         textRect.center = (
-                            (WINDOW_HEIGHT // 2)+150, (WINDOW_WIDTH // 2) + 400)
+                            (WINDOW_HEIGHT // 2)+50, (WINDOW_WIDTH // 2) + 350)
                         screen.blit(text, textRect)
 
                         text = font.render('EMPTY', True, white, black)
                         textRect = text.get_rect()
                         textRect.center = (
-                            (WINDOW_HEIGHT // 2)+150, (WINDOW_WIDTH // 2) + 400)
+                            (WINDOW_HEIGHT // 2)+50, (WINDOW_WIDTH // 2) + 350)
                         screen.blit(text, textRect)
                         break
                     if globIndex == 2:
                         text = font.render('EMPTY', True, black, black)
                         textRect = text.get_rect()
                         textRect.center = (
-                            (WINDOW_HEIGHT // 2)+150, (WINDOW_WIDTH // 2) + 400)
+                            (WINDOW_HEIGHT // 2)+50, (WINDOW_WIDTH // 2) + 350)
                         screen.blit(text, textRect)
 
                         text = font.render('START', True, white, black)
                         textRect = text.get_rect()
                         textRect.center = (
-                            (WINDOW_HEIGHT // 2)+150, (WINDOW_WIDTH // 2) + 400)
+                            (WINDOW_HEIGHT // 2)+50, (WINDOW_WIDTH // 2) + 350)
                         screen.blit(text, textRect)
                         break
                     if globIndex == 3:
                         text = font.render('START', True, black, black)
                         textRect = text.get_rect()
                         textRect.center = (
-                            (WINDOW_HEIGHT // 2)+150, (WINDOW_WIDTH // 2) + 400)
+                            (WINDOW_HEIGHT // 2)+50, (WINDOW_WIDTH // 2) + 350)
                         screen.blit(text, textRect)
 
                         text = font.render('END', True, white, black)
                         textRect = text.get_rect()
                         textRect.center = (
-                            (WINDOW_HEIGHT // 2)+150, (WINDOW_WIDTH // 2) + 400)
+                            (WINDOW_HEIGHT // 2)+50, (WINDOW_WIDTH // 2) + 350)
                         screen.blit(text, textRect)
                         break
                         globIndex = -1
@@ -134,10 +134,10 @@ def main():
                     color = red
                 pygame.draw.rect(screen, color, [
                                  (MARGIN + WIDTH) * column + MARGIN, (MARGIN + HEIGHT) * row + MARGIN, WIDTH, HEIGHT])
-        font = pygame.font.Font('freesansbold.ttf', 32)
+        font = pygame.font.Font('freesansbold.ttf', 28)
         text = font.render('Draw Mode:', True, white, black)
         textRect = text.get_rect()
-        textRect.center = ((WINDOW_HEIGHT // 2), (WINDOW_WIDTH // 2) + 400)
+        textRect.center = ((WINDOW_HEIGHT // 2) - 100, (WINDOW_WIDTH // 2) + 350)
         screen.blit(text, textRect)
         '''
         for row in range(12):
