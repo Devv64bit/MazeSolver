@@ -46,24 +46,44 @@ def main():
                         screen.blit(text, textRect)
                         break
                     if globIndex == 0:
-                        text = font.render('Wall', True, white, black)
+                        text = font.render('NONE', True, black, black)
+                        textRect = text.get_rect()
+                        textRect.center = ((WINDOW_HEIGHT // 2)+150, (WINDOW_WIDTH // 2) +400)
+                        screen.blit(text, textRect)
+
+                        text = font.render('WALL', True, white, black)
                         textRect = text.get_rect()
                         textRect.center = ((WINDOW_HEIGHT // 2)+150, (WINDOW_WIDTH // 2) +400)
                         screen.blit(text, textRect)
                         break
                     if globIndex == 1:
+                        text = font.render('WALL', True, black, black)
+                        textRect = text.get_rect()
+                        textRect.center = ((WINDOW_HEIGHT // 2)+150, (WINDOW_WIDTH // 2) +400)
+                        screen.blit(text, textRect)
+                        
                         text = font.render('EMPTY', True, white, black)
                         textRect = text.get_rect()
                         textRect.center = ((WINDOW_HEIGHT // 2)+150, (WINDOW_WIDTH // 2) +400)
                         screen.blit(text, textRect)
                         break
                     if globIndex == 2:
+                        text = font.render('EMPTY', True, black, black)
+                        textRect = text.get_rect()
+                        textRect.center = ((WINDOW_HEIGHT // 2)+150, (WINDOW_WIDTH // 2) +400)
+                        screen.blit(text, textRect)
+
                         text = font.render('START', True, white, black)
                         textRect = text.get_rect()
                         textRect.center = ((WINDOW_HEIGHT // 2)+150, (WINDOW_WIDTH // 2) +400)
                         screen.blit(text, textRect)
                         break
                     if globIndex == 3:
+                        text = font.render('START', True, black, black)
+                        textRect = text.get_rect()
+                        textRect.center = ((WINDOW_HEIGHT // 2)+150, (WINDOW_WIDTH // 2) +400)
+                        screen.blit(text, textRect)
+                        
                         text = font.render('END', True, white, black) 
                         textRect = text.get_rect()
                         textRect.center = ((WINDOW_HEIGHT // 2)+150, (WINDOW_WIDTH // 2) +400)
@@ -108,12 +128,12 @@ def main():
         textRect = text.get_rect()
         textRect.center = ((WINDOW_HEIGHT // 2), (WINDOW_WIDTH // 2) +400)
         screen.blit(text, textRect)
-
+        '''
         for row in range(12):
             for col in range(16):
                 print(grid[row][col])
+        '''
 
-                
         pygame.display.flip()
    
 
