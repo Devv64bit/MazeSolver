@@ -1,16 +1,16 @@
 import pygame
 import time
 import random
-
+import sys
 black = (0, 0, 0)
 white = (200, 200, 200)
 gray = (90, 90, 90)
 green = (13, 223, 6)
 red = (255, 0, 0)
-WINDOW_HEIGHT = 1200
-WINDOW_WIDTH = 1286
-WIDTH = 75
-HEIGHT = 75
+WINDOW_HEIGHT = 750
+WINDOW_WIDTH = 720
+WIDTH = 50
+HEIGHT = 50
 MARGIN = 5
 modes = {"WALL", "EMPTY", "END", "START"}
 grid = []
