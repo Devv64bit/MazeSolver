@@ -20,7 +20,22 @@ MARGIN = 5
 
 global startPos, stopPos, color
 
-grid = []
+#grid = []
+
+grid = [[1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 3],
+[0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0],
+[0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+[0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0],
+[0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
+[0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[1, 1, 1, 1, 1, 1, 0 ,1, 1, 1, 1, 1, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[1, 1 ,1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1],
+[2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+
+
 
 # creates empty grid
 # for row in range(12):
@@ -28,11 +43,14 @@ grid = []
 #    for column in range(13):
 #        grid[row].append(0)
 
+
+
+'''
 defaultMazeFile = open("./MazeSolver/patterns/default.txt", "r")
 for line in defaultMazeFile:
     line = line.rstrip('\n').split(' ')
     grid.append(line)
-
+'''
 pygame.display.set_caption("Maze Runners")
 
 
@@ -131,27 +149,27 @@ def main():
                 row = pos[1] // (HEIGHT + MARGIN)
             # Set that location to one
                 if globIndex == 0:
-                    grid[row][column] = '1'
+                    grid[row][column] = 1
                     print("Click ", pos, "Grid coordinates: ", row, column)
                 elif globIndex == 1:
-                    grid[row][column] = '0'
+                    grid[row][column] = 0
                     print("Click ", pos, "Grid coordinates: ", row, column)
                 elif globIndex == 2:
                     for r in range(12):
                         for c in range(13):
-                            if grid[r][c] == '2':
-                                grid[r][c] = '0'
+                            if grid[r][c] == 2:
+                                grid[r][c] = 0
                             else:
-                                grid[row][column] = '2'
+                                grid[row][column] = 2
                                 startPos = grid[row][column]
                     print("Click ", pos, "Grid coordinates: ", row, column)
                 elif globIndex == 3:
                     for r in range(12):
                         for c in range(13):
-                            if grid[r][c] == '3':
-                                grid[r][c] = '0'
+                            if grid[r][c] == 3:
+                                grid[r][c] = 0
                             else:
-                                grid[row][column] = '3'
+                                grid[row][column] = 3
                                 stopPos = grid[row][column]
                     print("Click ", pos, "Grid coordinates: ", row, column)
 
@@ -160,14 +178,18 @@ def main():
                 sys.exit()
         for row in range(12):
             for column in range(13):
-                if grid[row][column] == '0':
+                if grid[row][column] == 0:
                     color = white
-                elif grid[row][column] == '1':
+                elif grid[row][column] == 1:
                     color = gray
-                elif grid[row][column] == '2':
+                elif grid[row][column] == 2:
                     color = green
-                elif grid[row][column] == '3':
+                    startPos = grid[row][column]
+                elif grid[row][column] == 3:
                     color = red
+                    stopPos = grid[row][column]
+                elif grid[row][column] == 4:
+                    color = blue
                 
                 pygame.draw.rect(screen, color, [(MARGIN + WIDTH) * column + MARGIN, (MARGIN + HEIGHT) * row + MARGIN, WIDTH, HEIGHT])
         font = pygame.font.Font('freesansbold.ttf', 28)
