@@ -15,6 +15,9 @@ WIDTH = 50
 HEIGHT = 50
 MARGIN = 5
 
+
+global startPos, stopPos
+
 grid = []
 for row in range(12):
     grid.append([])
@@ -37,12 +40,14 @@ def main():
             if event.type == pygame.KEYDOWN:
                 font = pygame.font.Font('freesansbold.ttf', 28)
                 if event.key == pygame.K_q:
-
                     print(globIndex)
+
                     if globIndex < 3:
                         globIndex += 1
+
                     elif globIndex == 3:
                         globIndex = -1
+
                     if globIndex == -1:
                         text = font.render('NONE', True, white, black)
                         textRect = text.get_rect()
@@ -50,6 +55,7 @@ def main():
                             (WINDOW_HEIGHT // 2)+50, (WINDOW_WIDTH // 2) + 350)
                         screen.blit(text, textRect)
                         break
+
                     if globIndex == 0:
                         text = font.render('NONE', True, black, black)
                         textRect = text.get_rect()
@@ -63,6 +69,7 @@ def main():
                             (WINDOW_HEIGHT // 2)+50, (WINDOW_WIDTH // 2) + 350)
                         screen.blit(text, textRect)
                         break
+
                     if globIndex == 1:
                         text = font.render('WALL', True, black, black)
                         textRect = text.get_rect()
@@ -76,6 +83,7 @@ def main():
                             (WINDOW_HEIGHT // 2)+50, (WINDOW_WIDTH // 2) + 350)
                         screen.blit(text, textRect)
                         break
+
                     if globIndex == 2:
                         text = font.render('EMPTY', True, black, black)
                         textRect = text.get_rect()
@@ -89,6 +97,7 @@ def main():
                             (WINDOW_HEIGHT // 2)+50, (WINDOW_WIDTH // 2) + 350)
                         screen.blit(text, textRect)
                         break
+
                     if globIndex == 3:
                         text = font.render('START', True, black, black)
                         textRect = text.get_rect()
@@ -96,7 +105,7 @@ def main():
                             (WINDOW_HEIGHT // 2)+50, (WINDOW_WIDTH // 2) + 350)
                         screen.blit(text, textRect)
 
-                        text = font.render('END', True, white, black)
+                        text = font.render('GOAL', True, white, black)
                         textRect = text.get_rect()
                         textRect.center = (
                             (WINDOW_HEIGHT // 2)+50, (WINDOW_WIDTH // 2) + 350)
@@ -123,6 +132,7 @@ def main():
                                 grid[r][c] = 0
                             else:
                                 grid[row][column] = 2
+                                startPos =  grid[row][column]
                     print("Click ", pos, "Grid coordinates: ", row, column)
                 elif globIndex == 3:
                     for r in range(12):
@@ -131,6 +141,7 @@ def main():
                                 grid[r][c] = 0
                             else:
                                 grid[row][column] = 3
+                                stopPos = grid[row][column]
                     print("Click ", pos, "Grid coordinates: ", row, column)
 
             if event.type == pygame.QUIT:
