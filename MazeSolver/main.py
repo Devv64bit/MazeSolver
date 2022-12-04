@@ -17,13 +17,12 @@ HEIGHT = 50
 MARGIN = 5
 
 
-
 global startPos, stopPos, color
 
 grid = []
 
-#creates empty grid
-#for row in range(12):
+# creates empty grid
+# for row in range(12):
 #    grid.append([])
 #    for column in range(13):
 #        grid[row].append(0)
@@ -31,9 +30,10 @@ grid = []
 defaultMazeFile = open("./MazeSolver/patterns/default.txt", "r")
 for line in defaultMazeFile:
     line = line.rstrip('\n').split(' ')
-    grid.append(line) 
+    grid.append(line)
 
 pygame.display.set_caption("Maze Runners")
+
 
 
 def main():
@@ -121,9 +121,7 @@ def main():
                         break
                         globIndex = -1
                 if event.key == pygame.K_RETURN:
-                    print(a_star_algorithm(grid,startPos,stopPos))
-
-
+                    print(a_star_algorithm(grid, startPos, stopPos))
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # User clicks the mouse. Get the position
@@ -144,7 +142,7 @@ def main():
                                 grid[r][c] = '0'
                             else:
                                 grid[row][column] = '2'
-                                startPos =  grid[row][column]
+                                startPos = grid[row][column]
                     print("Click ", pos, "Grid coordinates: ", row, column)
                 elif globIndex == 3:
                     for r in range(12):
@@ -169,14 +167,13 @@ def main():
                     color = green
                 elif grid[row][column] == '3':
                     color = red
-                elif grid[row][column] == '4':
-                    color = blue
                 
                 pygame.draw.rect(screen, color, [(MARGIN + WIDTH) * column + MARGIN, (MARGIN + HEIGHT) * row + MARGIN, WIDTH, HEIGHT])
         font = pygame.font.Font('freesansbold.ttf', 28)
         text = font.render('Draw Mode:', True, white, black)
         textRect = text.get_rect()
-        textRect.center = ((WINDOW_HEIGHT // 2) - 100, (WINDOW_WIDTH // 2) + 350)
+        textRect.center = ((WINDOW_HEIGHT // 2) - 100,
+                           (WINDOW_WIDTH // 2) + 350)
         screen.blit(text, textRect)
 
         pygame.display.flip()
