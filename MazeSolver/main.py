@@ -27,7 +27,7 @@ grid = []
 #    for column in range(13):
 #        grid[row].append(0)
 
-defaultMazeFile = open("./MazeSolver/patterns/default.txt", "r")
+defaultMazeFile = open("./patterns/default.txt", "r")
 for line in defaultMazeFile:
     line = line.rstrip('\n').split(' ')
     grid.append(line)
