@@ -9,6 +9,7 @@ white = (200, 200, 200)
 gray = (90, 90, 90)
 green = (13, 223, 6)
 red = (255, 0, 0)
+blue = (0, 128, 255)
 WINDOW_HEIGHT = 750
 WINDOW_WIDTH = 720
 WIDTH = 50
@@ -34,7 +35,6 @@ for line in defaultMazeFile:
 
 pygame.display.set_caption("Maze Runners")
 
-print(grid)
 
 def main():
     global screen, CLOCK
@@ -169,6 +169,8 @@ def main():
                     color = green
                 elif grid[row][column] == '3':
                     color = red
+                elif grid[row][column] == '4':
+                    color = blue
                 
                 pygame.draw.rect(screen, color, [(MARGIN + WIDTH) * column + MARGIN, (MARGIN + HEIGHT) * row + MARGIN, WIDTH, HEIGHT])
         font = pygame.font.Font('freesansbold.ttf', 28)
