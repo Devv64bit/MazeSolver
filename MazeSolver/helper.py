@@ -1,94 +1,102 @@
-
-from collections import deque
-
-
-class Graph:
-    def __init__(self, adjac_lis):
-        self.adjac_lis = adjac_lis
-
-    def get_neighbors(self, v):
-        return self.adjac_lis[v]
+from queue import PriorityQueue
 
 
-def heurisitc_function(a, b):
-    # Uses manhattan distance to calcuate cost
-    x1, y1 = a
-    x2, y2 = b
+class Node():
+    """A node class for A* Pathfinding"""
 
-    return abs(x1-x2) + abs(y1-y2)
+    def __init__(self, parent=None, position=None):
+        self.parent = parent
+        self.position = position
+
+        self.g = 0
+        self.h = 0
+        self.f = 0
+
+    def __eq__(self, other):
+        return self.position == other.position
 
 
-def a_star_algorithm(grid, start, stop):
-    # In this open_lst is a lisy of nodes which have been visited, but who's
-    # neighbours haven't all been always inspected, It starts off with the start
-    # node
-    # And closed_lst is a list of nodes which have been visited
-    # and who's neighbors have been always inspected
-    open_lst = set([start])
-    closed_lst = set([])
+def a_star_algorithm(maze, start, end):
+    """Returns a list of tuples as a path from the given start to the given end in the given maze"""
 
-    # poo has present distances from start to all other nodes
-    # the default value is +infinity
-    poo = {}
-    poo[start] = 0
+    # Create start and end node
+    start_node = Node(None, start)
+    start_node.g = start_node.h = start_node.f = 0
+    end_node = Node(None, end)
+    end_node.g = end_node.h = end_node.f = 0
 
-    # par contains an adjac mapping of all nodes
-    par = {}
-    par[start] = start
+    # Initialize both open and closed list
+    open_list = []
+    closed_list = []
 
-    while len(open_lst) > 0:
-        n = None
+    # Add the start node
+    open_list.append(start_node)
 
-        # it will find a node with the lowest value of f() -
-        for v in open_lst:
-            if n == None or poo[v] + grid.h(v) < poo[n] + grid.h(n):
-                n = v
+    # Loop until you find the end
+    while len(open_list) > 0:
 
-        if n == None:
-            print('Path does not exist!')
-            return None
+        # Get the current node
+        current_node = open_list[0]
+        current_index = 0
+        for index, item in enumerate(open_list):
+            if item.f < current_node.f:
+                current_node = item
+                current_index = index
 
-        # if the current node is the stop
-        # then we start again from start
-        if n == stop:
-            reconst_path = []
+        # Pop current off open list, add to closed list
+        open_list.pop(current_index)
+        closed_list.append(current_node)
 
-            while par[n] != n:
-                reconst_path.append(n)
-                n = par[n]
+        # Found the goal
+        if current_node == end_node:
+            path = []
+            current = current_node
+            while current is not None:
+                path.append(current.position)
+                current = current.parent
+            return path[::-1]  # Return reversed path
 
-            reconst_path.append(start)
+        # Generate children
+        children = []
+        # Adjacent squares
+        for new_position in [(0, -1), (0, 1), (-1, 0), (1, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)]:
 
-            reconst_path.reverse()
+            # Get node position
+            node_position = (
+                current_node.position[0] + new_position[0], current_node.position[1] + new_position[1])
 
-            print('Path found: {}'.format(reconst_path))
-            return reconst_path
+            # Make sure within range
+            if node_position[0] > (len(maze) - 1) or node_position[0] < 0 or node_position[1] > (len(maze[len(maze)-1]) - 1) or node_position[1] < 0:
+                continue
 
-        # for all the neighbors of the current node do
-        for (m, weight) in grid.get_neighbors(n):
-          # if the current node is not presentin both open_lst and closed_lst
-            # add it to open_lst and note n as it's par
-            if m not in open_lst and m not in closed_lst:
-                open_lst.add(m)
-                par[m] = n
-                poo[m] = poo[n] + weight
+            # Make sure walkable terrain
+            if maze[node_position[0]][node_position[1]] != 0:
+                continue
 
-            # otherwise, check if it's quicker to first visit n, then m
-            # and if it is, update par data and poo data
-            # and if the node was in the closed_lst, move it to open_lst
-            else:
-                if poo[m] > poo[n] + weight:
-                    poo[m] = poo[n] + weight
-                    par[m] = n
+            # Create new node
+            new_node = Node(current_node, node_position)
 
-                    if m in closed_lst:
-                        closed_lst.remove(m)
-                        open_lst.add(m)
+            # Append
+            children.append(new_node)
 
-        # remove n from the open_lst, and add it to closed_lst
-        # because all of his neighbors were inspected
-        open_lst.remove(n)
-        closed_lst.add(n)
+        # Loop through children
+        for child in children:
 
-    print('Path does not exist!')
-    return None
+            # Child is on the closed list
+            for closed_child in closed_list:
+                if child == closed_child:
+                    continue
+
+            # Create the f, g, and h values
+            child.g = current_node.g + 1
+            child.h = ((child.position[0] - end_node.position[0]) **
+                       2) + ((child.position[1] - end_node.position[1]) ** 2)
+            child.f = child.g + child.h
+
+            # Child is already in the open list
+            for open_node in open_list:
+                if child == open_node and child.g > open_node.g:
+                    continue
+
+            # Add the child to the open list
+            open_list.append(child)
