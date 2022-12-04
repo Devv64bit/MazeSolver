@@ -9,19 +9,16 @@ class Graph:
     def get_neighbors(self, v):
         return self.adjac_lis[v]
 
-    # This is heuristic function which is having equal values for all nodes
-    def h(self, n):
-        H = {
-            'A': 1,
-            'B': 1,
-            'C': 1,
-            'D': 1
-        }
 
-        return H[n]
+def heurisitc_function(a, b):
+    # Uses manhattan distance to calcuate cost
+    x1, y1 = a
+    x2, y2 = b
+
+    return abs(x1-x2) + abs(y1-y2)
 
 
-def a_star_algorithm(self, start, stop):
+def a_star_algorithm(grid, start, stop):
     # In this open_lst is a lisy of nodes which have been visited, but who's
     # neighbours haven't all been always inspected, It starts off with the start
     # node
@@ -44,7 +41,7 @@ def a_star_algorithm(self, start, stop):
 
         # it will find a node with the lowest value of f() -
         for v in open_lst:
-            if n == None or poo[v] + self.h(v) < poo[n] + self.h(n):
+            if n == None or poo[v] + grid.h(v) < poo[n] + grid.h(n):
                 n = v
 
         if n == None:
@@ -68,7 +65,7 @@ def a_star_algorithm(self, start, stop):
             return reconst_path
 
         # for all the neighbors of the current node do
-        for (m, weight) in self.get_neighbors(n):
+        for (m, weight) in grid.get_neighbors(n):
           # if the current node is not presentin both open_lst and closed_lst
             # add it to open_lst and note n as it's par
             if m not in open_lst and m not in closed_lst:
@@ -95,12 +92,3 @@ def a_star_algorithm(self, start, stop):
 
     print('Path does not exist!')
     return None
-
-
-adjac_lis = {
-    'A': [('B', 1), ('C', 3), ('D', 7)],
-    'B': [('D', 5)],
-    'C': [('D', 12)]
-}
-graph1 = Graph(adjac_lis)
-graph1.a_star_algorithm('A', 'D')

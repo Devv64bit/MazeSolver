@@ -152,7 +152,8 @@ def main():
         font = pygame.font.Font('freesansbold.ttf', 28)
         text = font.render('Draw Mode:', True, white, black)
         textRect = text.get_rect()
-        textRect.center = ((WINDOW_HEIGHT // 2) - 100, (WINDOW_WIDTH // 2) + 350)
+        textRect.center = ((WINDOW_HEIGHT // 2) - 100,
+                           (WINDOW_WIDTH // 2) + 350)
         screen.blit(text, textRect)
 
         pygame.display.flip()
