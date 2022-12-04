@@ -23,18 +23,17 @@ global startPos, stopPos, color
 #grid = []
 
 grid = [[1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 3],
-[0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0],
-[0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
-[0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0],
-[0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
-[0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[1, 1, 1, 1, 1, 1, 0 ,1, 1, 1, 1, 1, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[1, 1 ,1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1],
-[2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-
+        [0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0],
+        [0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+        [0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0],
+        [0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
+        [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1],
+        [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
 
 # creates empty grid
@@ -44,7 +43,6 @@ grid = [[1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 3],
 #        grid[row].append(0)
 
 
-
 '''
 defaultMazeFile = open("./MazeSolver/patterns/default.txt", "r")
 for line in defaultMazeFile:
@@ -52,7 +50,6 @@ for line in defaultMazeFile:
     grid.append(line)
 '''
 pygame.display.set_caption("Maze Runners")
-
 
 
 def main():
@@ -190,8 +187,9 @@ def main():
                     stopPos = grid[row][column]
                 elif grid[row][column] == 4:
                     color = blue
-                
-                pygame.draw.rect(screen, color, [(MARGIN + WIDTH) * column + MARGIN, (MARGIN + HEIGHT) * row + MARGIN, WIDTH, HEIGHT])
+
+                pygame.draw.rect(screen, color, [
+                                 (MARGIN + WIDTH) * column + MARGIN, (MARGIN + HEIGHT) * row + MARGIN, WIDTH, HEIGHT])
         font = pygame.font.Font('freesansbold.ttf', 28)
         text = font.render('Draw Mode:', True, white, black)
         textRect = text.get_rect()
