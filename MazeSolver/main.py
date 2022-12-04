@@ -10,6 +10,7 @@ gray = (90, 90, 90)
 green = (13, 223, 6)
 red = (255, 0, 0)
 blue = (0, 128, 255)
+
 WINDOW_HEIGHT = 750
 WINDOW_WIDTH = 720
 WIDTH = 50
@@ -27,7 +28,7 @@ grid = []
 #    for column in range(13):
 #        grid[row].append(0)
 
-defaultMazeFile = open("./patterns/default.txt", "r")
+defaultMazeFile = open("./MazeSolver/patterns/default.txt", "r")
 for line in defaultMazeFile:
     line = line.rstrip('\n').split(' ')
     grid.append(line)
