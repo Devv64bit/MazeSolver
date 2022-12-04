@@ -2,7 +2,7 @@ import pygame
 import time
 import random
 import sys
-
+from helper import *
 
 black = (0, 0, 0)
 white = (200, 200, 200)
@@ -14,6 +14,7 @@ WINDOW_WIDTH = 720
 WIDTH = 50
 HEIGHT = 50
 MARGIN = 5
+
 
 
 global startPos, stopPos
@@ -112,6 +113,10 @@ def main():
                         screen.blit(text, textRect)
                         break
                         globIndex = -1
+                if event.key == pygame.K_RETURN:
+                    print(a_star_algorithm(grid,startPos,stopPos))
+
+
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # User clicks the mouse. Get the position
@@ -163,8 +168,7 @@ def main():
         font = pygame.font.Font('freesansbold.ttf', 28)
         text = font.render('Draw Mode:', True, white, black)
         textRect = text.get_rect()
-        textRect.center = ((WINDOW_HEIGHT // 2) - 100,
-                           (WINDOW_WIDTH // 2) + 350)
+        textRect.center = ((WINDOW_HEIGHT // 2) - 100, (WINDOW_WIDTH // 2) + 350)
         screen.blit(text, textRect)
 
         pygame.display.flip()
