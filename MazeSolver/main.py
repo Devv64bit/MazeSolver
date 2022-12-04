@@ -2,6 +2,8 @@ import pygame
 import time
 import random
 import sys
+
+
 black = (0, 0, 0)
 white = (200, 200, 200)
 gray = (90, 90, 90)
@@ -12,7 +14,7 @@ WINDOW_WIDTH = 720
 WIDTH = 50
 HEIGHT = 50
 MARGIN = 5
-modes = {"WALL", "EMPTY", "END", "START"}
+
 grid = []
 for row in range(12):
     grid.append([])
@@ -35,6 +37,7 @@ def main():
             if event.type == pygame.KEYDOWN:
                 font = pygame.font.Font('freesansbold.ttf', 28)
                 if event.key == pygame.K_q:
+
                     print(globIndex)
                     if globIndex < 3:
                         globIndex += 1
@@ -100,6 +103,7 @@ def main():
                         screen.blit(text, textRect)
                         break
                         globIndex = -1
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # User clicks the mouse. Get the position
                 pos = pygame.mouse.get_pos()
@@ -113,11 +117,22 @@ def main():
                     grid[row][column] = 0
                     print("Click ", pos, "Grid coordinates: ", row, column)
                 elif globIndex == 2:
-                    grid[row][column] = 2
+                    for r in range(12):
+                        for c in range(16):
+                            if grid[r][c] == 2:
+                                grid[r][c] = 0
+                            else:
+                                grid[row][column] = 2
                     print("Click ", pos, "Grid coordinates: ", row, column)
                 elif globIndex == 3:
-                    grid[row][column] = 3
+                    for r in range(12):
+                        for c in range(16):
+                            if grid[r][c] == 3:
+                                grid[r][c] = 0
+                            else:
+                                grid[row][column] = 3
                     print("Click ", pos, "Grid coordinates: ", row, column)
+
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
@@ -139,11 +154,6 @@ def main():
         textRect = text.get_rect()
         textRect.center = ((WINDOW_HEIGHT // 2) - 100, (WINDOW_WIDTH // 2) + 350)
         screen.blit(text, textRect)
-        '''
-        for row in range(12):
-            for col in range(16):
-                print(grid[row][col])
-        '''
 
         pygame.display.flip()
 
