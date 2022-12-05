@@ -23,17 +23,26 @@ global startPos, stopPos, color
 #grid = []
 
 grid = [[1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 3],
-[0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0],
-[0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
-[0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0],
-[0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
-[0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[1, 1, 1, 1, 1, 1, 0 ,1, 1, 1, 1, 1, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[1, 1 ,1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1],
-[2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+        [0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0],
+        [0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+        [0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0],
+        [0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
+        [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1],
+        [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+
+
+
+# creates empty grid
+# for row in range(12):
+#    grid.append([])
+#    for column in range(13):
+#        grid[row].append(0)
+
 
 
 '''
@@ -52,7 +61,6 @@ for line in defaultMazeFile:
     grid.append(line)
 '''
 pygame.display.set_caption("Maze Runners")
-
 
 
 def main():
@@ -200,25 +208,12 @@ def main():
                     color = blue
                 
                 pygame.draw.rect(screen, color, [(MARGIN + WIDTH) * column + MARGIN, (MARGIN + HEIGHT) * row + MARGIN, WIDTH, HEIGHT])
-        font = pygame.font.Font('freesansbold.ttf', 22)
-        draw = font.render('Draw Mode:', True, white, black)
-        controls = font.render('Controls:', True, white, black)
-        pressQ = font.render('Press Q to change draw mode', True, white, black)
-        clear = font.render('Press C to clear Maze', True, white, black)
-        contRect = controls.get_rect()
-        pressQRect = pressQ.get_rect()
-        clearRect = clear.get_rect()
-        drawRect = draw.get_rect()
-
-        contRect.center = ((WINDOW_HEIGHT // 2) + 100,(WINDOW_WIDTH // 2) + 320)
-        pressQRect.center = ((WINDOW_HEIGHT // 2) + 100,(WINDOW_WIDTH // 2) + 350)
-        clearRect.center = ((WINDOW_HEIGHT // 2) + 100,(WINDOW_WIDTH // 2) + 380)
-        drawRect.center = ((WINDOW_HEIGHT // 2) - 300,(WINDOW_WIDTH // 2) + 320)
-
-        screen.blit(draw, drawRect)
-        screen.blit(controls, contRect)
-        screen.blit(pressQ, pressQRect)
-        screen.blit(clear, clearRect)
+        font = pygame.font.Font('freesansbold.ttf', 28)
+        text = font.render('Draw Mode:', True, white, black)
+        textRect = text.get_rect()
+        textRect.center = ((WINDOW_HEIGHT // 2) - 100,
+                           (WINDOW_WIDTH // 2) + 350)
+        screen.blit(text, textRect)
 
         pygame.display.flip()
 
