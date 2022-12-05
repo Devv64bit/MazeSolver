@@ -1,4 +1,7 @@
-class Node:
+from queue import PriorityQueue
+
+
+class Node():
     """A node class for A* Pathfinding"""
 
     def __init__(self, parent=None, position=None):
@@ -12,23 +15,9 @@ class Node:
     def __eq__(self, other):
         return self.position == other.position
 
-# This function return the path of the search
-
-
-def return_path(maze):
-    path = []
-    # here we create the initialized result maze with -1 in every position
-    while maze:
-        path.append(maze.position)
-        maze = maze.parent
-    # Return reversed path as we need to show from start to end path
-    path = path[::-1]
-    return path
-
 
 def a_star_algorithm(maze, start, end):
     """Returns a list of tuples as a path from the given start to the given end in the given maze"""
-    print('# Searching best path using A* ...')
 
     # Create start and end node
     start_node = Node(None, start)
@@ -42,24 +31,10 @@ def a_star_algorithm(maze, start, end):
 
     # Add the start node
     open_list.append(start_node)
-    # Adding a stop condition. This is to avoid any infinite loop and stop
-    # execution after some reasonable number of steps
-    outer_iterations = 0
-    max_iterations = (len(maze) // 2) ** 10
 
-    # what squares do we search . serarch movement is left-right-top-bottom
-    # (4 movements) from every positon
-
-    move = [[-1, 0],  # go up
-            [0, -1],  # go left
-            [1, 0],  # go down
-            [0, 1]]  # go right
-
-    # find maze has got how many rows and columns
-  #  no_rows, no_columns = np.shape(maze)
     # Loop until you find the end
     while len(open_list) > 0:
-        outer_iterations += 1
+
         # Get the current node
         current_node = open_list[0]
         current_index = 0
@@ -68,21 +43,23 @@ def a_star_algorithm(maze, start, end):
                 current_node = item
                 current_index = index
 
-        if outer_iterations > max_iterations:
-            print("giving up on pathfinding too many iterations")
-            return return_path(current_node, maze)
         # Pop current off open list, add to closed list
         open_list.pop(current_index)
         closed_list.append(current_node)
 
         # Found the goal
         if current_node == end_node:
-            return return_path(current_node, maze)
+            path = []
+            current = current_node
+            while current is not None:
+                path.append(current.position)
+                current = current.parent
+            return path[::-1]  # Return reversed path
 
         # Generate children
         children = []
-
-        for new_position in move:
+        # Adjacent squares
+        for new_position in [(0, -1), (0, 1), (-1, 0), (1, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)]:
 
             # Get node position
             node_position = (
