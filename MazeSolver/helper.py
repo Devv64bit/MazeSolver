@@ -1,102 +1,99 @@
-from queue import PriorityQueue
+import queue
 
 
-class Node():
-    """A node class for A* Pathfinding"""
-
-    def __init__(self, parent=None, position=None):
-        self.parent = parent
-        self.position = position
-
-        self.g = 0
-        self.h = 0
-        self.f = 0
-
-    def __eq__(self, other):
-        return self.position == other.position
+# to keep track of the blocks of maze
+class Grid_Position:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
 
 
-def a_star_algorithm(maze, start, end):
-    """Returns a list of tuples as a path from the given start to the given end in the given maze"""
+# each block will have its own position and cost of steps taken
+class Node:
+    def __init__(self, pos: Grid_Position, cost):
+        self.pos = pos
+        self.cost = cost
 
-    # Create start and end node
-    start_node = Node(None, start)
-    start_node.g = start_node.h = start_node.f = 0
-    end_node = Node(None, end)
-    end_node.g = end_node.h = end_node.f = 0
+    def __lt__(self, other):
+        if self.cost < other.cost:
+            return True
+        else:
+            return False
 
-    # Initialize both open and closed list
-    open_list = []
-    closed_list = []
+
+def heuristic_value(curr_node, dest):
+    return abs(curr_node.x - dest.x) + abs(curr_node.y - dest.y)
+
+
+def A_Star(maze, end, start):
+    # Create lists for open nodes and closed nodes
+    open1 = queue.PriorityQueue()
+    closed = [[False for i in range(len(maze))]
+              for j in range(len(maze))]
+    closed[start.x][start.y] = True
+
+    # using these cell arrays to get neighbours
+    adj_cell_x = [-1, 0, 0, 1]
+    adj_cell_y = [0, -1, 1, 0]
+
+    # Create a start node and an goal node
+    Start = Node(start, 0)
+    goal = Node(end, 0)
 
     # Add the start node
-    open_list.append(start_node)
+    open1.put((0, Start))
+    cost = 0
+    cells = 4
 
-    # Loop until you find the end
-    while len(open_list) > 0:
+    # Loop until the open list is empty
+    while open1:
 
-        # Get the current node
-        current_node = open_list[0]
-        current_index = 0
-        for index, item in enumerate(open_list):
-            if item.f < current_node.f:
-                current_node = item
-                current_index = index
+        # Sort the open list to get the node with the lowest cost first
+        # no need cuz priority queue
+        # Get the node with the lowest cost
 
-        # Pop current off open list, add to closed list
-        open_list.pop(current_index)
-        closed_list.append(current_node)
+        current = open1.get()  # getting least cost node as open1 is a priority queue
+        current_node = current[1]  # getting node in cuurent node
+        current_pos = current_node.pos
 
-        # Found the goal
-        if current_node == end_node:
-            path = []
-            current = current_node
-            while current is not None:
-                path.append(current.position)
-                current = current.parent
-            return path[::-1]  # Return reversed path
+        # Add the current node to the closed list
+        if current_node not in closed:
+            closed[current_pos.x][current_pos.y] = True
+            cost = cost + 1
 
-        # Generate children
-        children = []
-        # Adjacent squares
-        for new_position in [(0, -1), (0, 1), (-1, 0), (1, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)]:
+        # Check if we have reached the goal, return the path (From Current Node to Start Node By Node.parent)
+        if current_pos.x == end.x and current_pos.y == end.y:
+            print("Algorithm used = A* Algorithm")
+            print("No. of moves utilized = ", cost)
+            return current_node.cost
 
-            # Get node position
-            node_position = (
-                current_node.position[0] + new_position[0], current_node.position[1] + new_position[1])
+        x_pos = current_pos.x
+        y_pos = current_pos.y
 
-            # Make sure within range
-            if node_position[0] > (len(maze) - 1) or node_position[0] < 0 or node_position[1] > (len(maze[len(maze)-1]) - 1) or node_position[1] < 0:
-                continue
+        # Get neighbours
+        for i in range(cells):
+            if x_pos == len(maze) - 1 and adj_cell_x[i] == 1:
+                x_pos = current_pos.x
+                y_pos = current_pos.y + adj_cell_y[i]
+                post = Grid_Position(x_pos, y_pos)
+            if y_pos == 0 and adj_cell_y[i] == -1:
+                x_pos = current_pos.x + adj_cell_x[i]
+                y_pos = current_pos.y
+                post = Grid_Position(x_pos, y_pos)
+            else:
+                x_pos = current_pos.x + adj_cell_x[i]
+                y_pos = current_pos.y + adj_cell_y[i]
+                post = Grid_Position(x_pos, y_pos)
+            if x_pos < 20 and y_pos < 20 and x_pos >= 0 and y_pos >= 0:
+                if maze[x_pos][y_pos] == 1:
+                    if not closed[x_pos][y_pos]:
+                        neighbor = Node(Grid_Position(
+                            x_pos, y_pos), current_node.cost + 1)
+                        # get heuristic value of neighbours
+                        h = heuristic_value(neighbor.pos, end)
+                        f = h + neighbor.cost  # getting f by f = h + g
+                        # adding neighbour to closed
+                        closed[x_pos][y_pos] = True
+                        open1.put((f, neighbor))
 
-            # Make sure walkable terrain
-            if maze[node_position[0]][node_position[1]] != 0:
-                continue
-
-            # Create new node
-            new_node = Node(current_node, node_position)
-
-            # Append
-            children.append(new_node)
-
-        # Loop through children
-        for child in children:
-
-            # Child is on the closed list
-            for closed_child in closed_list:
-                if child == closed_child:
-                    continue
-
-            # Create the f, g, and h values
-            child.g = current_node.g + 1
-            child.h = ((child.position[0] - end_node.position[0]) **
-                       2) + ((child.position[1] - end_node.position[1]) ** 2)
-            child.f = child.g + child.h
-
-            # Child is already in the open list
-            for open_node in open_list:
-                if child == open_node and child.g > open_node.g:
-                    continue
-
-            # Add the child to the open list
-            open_list.append(child)
+    return -1

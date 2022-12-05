@@ -23,17 +23,17 @@ global startPos, stopPos, color
 #grid = []
 
 grid = [[1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 3],
-[0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0],
-[0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
-[0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0],
-[0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
-[0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[1, 1, 1, 1, 1, 1, 0 ,1, 1, 1, 1, 1, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[1, 1 ,1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1],
-[2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+        [0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0],
+        [0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+        [0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0],
+        [0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
+        [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1],
+        [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
 
 '''
@@ -52,7 +52,6 @@ for line in defaultMazeFile:
     grid.append(line)
 '''
 pygame.display.set_caption("Maze Runners")
-
 
 
 def main():
@@ -147,8 +146,9 @@ def main():
                             grid[r][c] = 0
 
                 if event.key == pygame.K_RETURN:
-                    print(a_star_algorithm(grid, startPos, stopPos))
-                
+                    startPos = Grid_Position(0, 0)
+                    stopPos = Grid_Position(0, 4)
+                    print(A_Star(grid, stopPos, startPos))
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # User clicks the mouse. Get the position
@@ -198,8 +198,9 @@ def main():
                     stopPos = grid[row][column]
                 elif grid[row][column] == 4:
                     color = blue
-                
-                pygame.draw.rect(screen, color, [(MARGIN + WIDTH) * column + MARGIN, (MARGIN + HEIGHT) * row + MARGIN, WIDTH, HEIGHT])
+
+                pygame.draw.rect(screen, color, [
+                                 (MARGIN + WIDTH) * column + MARGIN, (MARGIN + HEIGHT) * row + MARGIN, WIDTH, HEIGHT])
         font = pygame.font.Font('freesansbold.ttf', 22)
         draw = font.render('Draw Mode:', True, white, black)
         controls = font.render('Controls:', True, white, black)
@@ -210,10 +211,14 @@ def main():
         clearRect = clear.get_rect()
         drawRect = draw.get_rect()
 
-        contRect.center = ((WINDOW_HEIGHT // 2) + 100,(WINDOW_WIDTH // 2) + 320)
-        pressQRect.center = ((WINDOW_HEIGHT // 2) + 100,(WINDOW_WIDTH // 2) + 350)
-        clearRect.center = ((WINDOW_HEIGHT // 2) + 100,(WINDOW_WIDTH // 2) + 380)
-        drawRect.center = ((WINDOW_HEIGHT // 2) - 300,(WINDOW_WIDTH // 2) + 320)
+        contRect.center = ((WINDOW_HEIGHT // 2) + 100,
+                           (WINDOW_WIDTH // 2) + 320)
+        pressQRect.center = ((WINDOW_HEIGHT // 2) + 100,
+                             (WINDOW_WIDTH // 2) + 350)
+        clearRect.center = ((WINDOW_HEIGHT // 2) + 100,
+                            (WINDOW_WIDTH // 2) + 380)
+        drawRect.center = ((WINDOW_HEIGHT // 2) - 300,
+                           (WINDOW_WIDTH // 2) + 320)
 
         screen.blit(draw, drawRect)
         screen.blit(controls, contRect)
