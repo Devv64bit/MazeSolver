@@ -1,27 +1,32 @@
 import pygame
-import time
-import random
 import sys
 from helper import *
 
 black = (0, 0, 0)
-white = (200, 200, 200)
+white = (200, 200, 200)  # EMPTY
 gray = (90, 90, 90)
 green = (13, 223, 6)
 red = (255, 0, 0)
 blue = (0, 128, 255)
+path = (220, 253, 113)  # PATH
 
 WINDOW_HEIGHT = 800
 WINDOW_WIDTH = 720
 WIDTH = 50
 HEIGHT = 50
 MARGIN = 5
+ROWS = WINDOW_WIDTH // WIDTH
+COLS = WINDOW_HEIGHT // HEIGHT
+START_POS, STOP_POS = None, None
 
+SEARCH_MODES = [
+    ("DFS", DFS_random),
+    ("A*", A_star)
+]
+CUR_SEARCH_MODE_INDEX = 0
+CUR_SEARCH_MODE_FUNCTION = SEARCH_MODES[CUR_SEARCH_MODE_INDEX][1]
 
-global startPos, stopPos, color
-
-#grid = []
-
+pygame.display.set_caption("Maze Runners")
 grid = [[1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 3],
         [0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0],
         [0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
@@ -51,11 +56,35 @@ for line in defaultMazeFile:
     line = line.rstrip('\n').split(' ')
     grid.append(line)
 '''
-pygame.display.set_caption("Maze Runners")
+
+
+def draw_grid(grid):
+    color_table = {
+        "WALL": (80, 80, 80),
+        "EMPTY": (237, 240, 252),
+        "GOAL": (0, 171, 28),
+        "START": (255, 0, 0),
+        "PATH": (220, 235, 113)
+    }
+
+    x, y = 0, 0
+    for i in range(ROWS):
+        for j in range(COLS):
+            cell = pygame.Rect(x + WIDTH*j, y + HEIGHT*i, WIDTH, HEIGHT)
+            cell_color = color_table.get(grid[i][j], color_table["EMPTY"])
+            draw_rect_with_border(screen, cell_color, cell, 1, (0, 0, 0))
+
+
+def remove_path(grid):
+    for i in range(COLS):
+        for j in range(ROWS):
+            if grid[i][j] == "PATH":
+                grid[i][j] == "EMPTY"
 
 
 def main():
     global screen, CLOCK
+
     globIndex = -1
     pygame.init()
     screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -146,10 +175,9 @@ def main():
                             grid[r][c] = 0
 
                 if event.key == pygame.K_RETURN:
-                    startPos = Grid_Position(0, 0)
-                    stopPos = Grid_Position(0, 4)
-                    print(A_Star(grid, stopPos, startPos))
-
+                   # DFS_random(grid, START_POS, STOP_POS)
+                    path = CUR_SEARCH_MODE_FUNCTION(grid, START_POS, STOP_POS)
+                    print(path)
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # User clicks the mouse. Get the position
                 pos = pygame.mouse.get_pos()
@@ -169,7 +197,7 @@ def main():
                                 grid[r][c] = 0
                             else:
                                 grid[row][column] = 2
-                                startPos = grid[row][column]
+                                START_POS = grid[row][column]
                     print("Click ", pos, "Grid coordinates: ", row, column)
                 elif globIndex == 3:
                     for r in range(12):
@@ -178,7 +206,7 @@ def main():
                                 grid[r][c] = 0
                             else:
                                 grid[row][column] = 3
-                                stopPos = grid[row][column]
+                                STOP_POS = grid[row][column]
                     print("Click ", pos, "Grid coordinates: ", row, column)
 
             if event.type == pygame.QUIT:
@@ -192,10 +220,10 @@ def main():
                     color = gray
                 elif grid[row][column] == 2:
                     color = green
-                    startPos = grid[row][column]
+                    START_POS = grid[row][column]
                 elif grid[row][column] == 3:
                     color = red
-                    stopPos = grid[row][column]
+                    STOP_POS = grid[row][column]
                 elif grid[row][column] == 4:
                     color = blue
 
