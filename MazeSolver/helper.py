@@ -11,15 +11,15 @@ class Node:
     
     def get_neighbors(self, grid):
         m, n = len(grid), len(grid[0])
-        x, y = (0, 1)
+        x, y = self.pos
         neighbors = []
-        if x + 1 < m and grid[x + 1][y] != "WALL":
+        if x + 1 < m and grid[x + 1][y] != 'WALL':
             neighbors.append((x + 1, y))
-        if x - 1 >= 0 and grid[x - 1][y] != "WALL":
+        if x - 1 >= 0 and grid[x - 1][y] != 'WALL':
             neighbors.append((x - 1, y))
-        if y + 1 < n and grid[x][y + 1] != "WALL":
+        if y + 1 < n and grid[x][y + 1] != 'WALL':
             neighbors.append((x, y + 1))
-        if y - 1 >= 0 and grid[x][y - 1] != "WALL":
+        if y - 1 >= 0 and grid[x][y - 1] != 'WALL':
             neighbors.append((x, y - 1))
         return neighbors
 
@@ -28,12 +28,11 @@ class Node:
 def heuristic_function(pos, GOAL_POS):
     'Uses Manhattan Distance'
     cost = abs(pos[0]- GOAL_POS[0]) + abs(pos[1]- GOAL_POS[1])
-    print(
-        f"POS:<{pos[0], pos[1]}> | GOAL_POS: <{GOAL_POS[0]}, {GOAL_POS[1]}> | COST: {cost}")
+    #print(f"POS:<{pos[0], pos[1]}> | GOAL_POS: <{GOAL_POS[0]}, {GOAL_POS[1]}> | COST: {cost}")
     return cost
 
 
-def DFS_random(grid, START_POS, GOAL_POS):
+def DFS(grid, START_POS, GOAL_POS):
     stack = [
         Node(START_POS, parent=None, cost=0)
     ]
@@ -48,8 +47,7 @@ def DFS_random(grid, START_POS, GOAL_POS):
             while tmp.parent is not None:
                 path.append(tmp.pos)
                 tmp = tmp.parent
-            print(path[1:], len(visited))
-            #return path[1:], len(visited)
+            return path[1:]
         neighbors = cur.get_neighbors(grid)
         
 
@@ -81,7 +79,7 @@ def A_star(grid, START_POS, GOAL_POS):
             while tmp.parent is not None:
                 path.append(tmp.pos)
                 tmp = tmp.parent
-            return path[1:], len(visited)
+            return path[1:]
         neighbors = cur.get_neighbors(grid)
         
 

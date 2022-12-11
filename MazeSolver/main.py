@@ -45,10 +45,10 @@ for r in range(12):
 
 
 def remove_path(grid):
-    for i in range(COLS):
-        for j in range(ROWS):
-            if grid[i][j] == "PATH":
-                grid[i][j] == "EMPTY"
+    for r in range(12):
+        for c in range(13):
+            if grid[r][c] == "PATH":
+                grid[r][c] = "EMPTY"
 
 
 def main():
@@ -143,10 +143,11 @@ def main():
                         for c in range(13):
                             grid[r][c] = "EMPTY"
                 if event.key == pygame.K_RETURN:
+                    remove_path(grid)
+                    #path = DFS(grid, START_POS, GOAL_POS)
                     path = A_star(grid, START_POS, GOAL_POS)
-                    print(path)
-                    #for pos in path:
-                        #grid[pos[0]][pos[1]] = "PATH"
+                    for pos in path:
+                        grid[pos[0]][pos[1]] = "PATH"
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # User clicks the mouse. Get the position
@@ -165,6 +166,7 @@ def main():
                         for c in range(13):
                             if grid[r][c] == "START":
                                 grid[r][c] = "EMPTY"
+                                grid[row][column] = "START"
                             else:
                                 grid[row][column] = "START"
                                 START_POS = row, column
@@ -174,6 +176,7 @@ def main():
                         for c in range(13):
                             if grid[r][c] == "GOAL":
                                 grid[r][c] = "EMPTY"
+                                grid[row][column] = "GOAL"
                             else:
                                 grid[row][column] = "GOAL"
                                 GOAL_POS = row, column
