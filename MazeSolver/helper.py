@@ -28,10 +28,9 @@ class Node:
 def heuristic_function(pos, GOAL_POS):
     'Uses Manhattan Distance'
     cost = abs(pos[0]- GOAL_POS[0]) + abs(pos[1]- GOAL_POS[1])
-    #print(f"POS:<{pos[0], pos[1]}> | GOAL_POS: <{GOAL_POS[0]}, {GOAL_POS[1]}> | COST: {cost}")
     return cost
 
-
+'''
 def DFS(grid, START_POS, GOAL_POS):
     stack = [
         Node(START_POS, parent=None, cost=0)
@@ -58,7 +57,7 @@ def DFS(grid, START_POS, GOAL_POS):
             if n not in visited:
                 stack.append(Node(n, parent=cur, cost=cur.cost + 1))
     return None
-
+'''
 
 
 def A_star(grid, START_POS, GOAL_POS):

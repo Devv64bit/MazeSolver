@@ -10,6 +10,7 @@ green = (13, 223, 6)
 red = (255, 0, 0)
 blue = (0, 128, 255)
 path = (220, 253, 113)  # PATH
+drawMode = (242, 103, 17)
 
 
 WINDOW_HEIGHT = 800
@@ -21,13 +22,6 @@ ROWS = WINDOW_WIDTH // WIDTH
 COLS = WINDOW_HEIGHT // HEIGHT
 START_POS, GOAL_POS = None, None
 
-
-#SEARCH_MODES = [
-#    ("DFS", DFS_random),
-#    ("A*", A_star)
-#]
-#CUR_SEARCH_MODE_INDEX = 0
-#CUR_SEARCH_MODE_FUNCTION = SEARCH_MODES[CUR_SEARCH_MODE_INDEX][1]
 
 pygame.display.set_caption("Maze Runners")
 
@@ -117,10 +111,10 @@ def main():
                         globIndex = -1
 
                     if globIndex == -1:
-                        text = font.render('NONE', True, white, black)
+                        text = font.render('NONE', True, drawMode, black)
                         textRect = text.get_rect()
                         textRect.center = (
-                            (WINDOW_HEIGHT // 2)-200, (WINDOW_WIDTH // 2) + 320)
+                            (WINDOW_HEIGHT // 2)-160, (WINDOW_WIDTH // 2) + 320)
                         screen.blit(text, textRect)
                         break
 
@@ -128,41 +122,41 @@ def main():
                         text = font.render('NONE', True, black, black)
                         textRect = text.get_rect()
                         textRect.center = (
-                            (WINDOW_HEIGHT // 2)-200, (WINDOW_WIDTH // 2) + 320)
+                            (WINDOW_HEIGHT // 2)-160, (WINDOW_WIDTH // 2) + 320)
                         screen.blit(text, textRect)
 
-                        text = font.render('WALL', True, white, black)
+                        text = font.render('WALL', True, drawMode, black)
                         textRect = text.get_rect()
                         textRect.center = (
-                            (WINDOW_HEIGHT // 2)-200, (WINDOW_WIDTH // 2) + 320)
+                            (WINDOW_HEIGHT // 2)-160, (WINDOW_WIDTH // 2) + 320)
                         screen.blit(text, textRect)
                         break
 
                     if globIndex == 1:
-                        text = font.render('WALL', True, black, black)
+                        text = font.render('WALL', True,  black, black)
                         textRect = text.get_rect()
                         textRect.center = (
-                            (WINDOW_HEIGHT // 2)-200, (WINDOW_WIDTH // 2) + 320)
+                            (WINDOW_HEIGHT // 2)-160, (WINDOW_WIDTH // 2) + 320)
                         screen.blit(text, textRect)
 
-                        text = font.render('EMPTY', True, white, black)
+                        text = font.render('EMPTY', True, drawMode, black)
                         textRect = text.get_rect()
                         textRect.center = (
-                            (WINDOW_HEIGHT // 2)-200, (WINDOW_WIDTH // 2) + 320)
+                            (WINDOW_HEIGHT // 2)-160, (WINDOW_WIDTH // 2) + 320)
                         screen.blit(text, textRect)
                         break
 
                     if globIndex == 2:
-                        text = font.render('EMPTY', True, black, black)
+                        text = font.render('EMPTY', True,  black, black)
                         textRect = text.get_rect()
                         textRect.center = (
-                            (WINDOW_HEIGHT // 2)-200, (WINDOW_WIDTH // 2) + 320)
+                            (WINDOW_HEIGHT // 2)-160, (WINDOW_WIDTH // 2) + 320)
                         screen.blit(text, textRect)
 
-                        text = font.render('START', True, white, black)
+                        text = font.render('START', True, drawMode, black)
                         textRect = text.get_rect()
                         textRect.center = (
-                            (WINDOW_HEIGHT // 2)-200, (WINDOW_WIDTH // 2) + 320)
+                            (WINDOW_HEIGHT // 2)-160, (WINDOW_WIDTH // 2) + 320)
                         screen.blit(text, textRect)
                         break
 
@@ -170,16 +164,17 @@ def main():
                         text = font.render('START', True, black, black)
                         textRect = text.get_rect()
                         textRect.center = (
-                            (WINDOW_HEIGHT // 2)-200, (WINDOW_WIDTH // 2) + 320)
+                            (WINDOW_HEIGHT // 2)-160, (WINDOW_WIDTH // 2) + 320)
                         screen.blit(text, textRect)
 
-                        text = font.render('GOAL', True, white, black)
+                        text = font.render('GOAL', True, drawMode, black)
                         textRect = text.get_rect()
                         textRect.center = (
-                            (WINDOW_HEIGHT // 2)-200, (WINDOW_WIDTH // 2) + 320)
+                            (WINDOW_HEIGHT // 2)-160, (WINDOW_WIDTH // 2) + 320)
                         screen.blit(text, textRect)
                         break
                         globIndex = -1
+                    
 
                 if event.key == pygame.K_c:
                     print("cleared the Grid")
