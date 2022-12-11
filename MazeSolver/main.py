@@ -17,62 +17,31 @@ HEIGHT = 50
 MARGIN = 5
 ROWS = WINDOW_WIDTH // WIDTH
 COLS = WINDOW_HEIGHT // HEIGHT
-START_POS, STOP_POS = None, None
+START_POS, GOAL_POS = None, None
 
-SEARCH_MODES = [
-    ("DFS", DFS_random),
-    ("A*", A_star)
-]
-CUR_SEARCH_MODE_INDEX = 0
-CUR_SEARCH_MODE_FUNCTION = SEARCH_MODES[CUR_SEARCH_MODE_INDEX][1]
+#SEARCH_MODES = [
+#    ("DFS", DFS_random),
+#    ("A*", A_star)
+#]
+#CUR_SEARCH_MODE_INDEX = 0
+#CUR_SEARCH_MODE_FUNCTION = SEARCH_MODES[CUR_SEARCH_MODE_INDEX][1]
 
 pygame.display.set_caption("Maze Runners")
-grid = [[1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 3],
-        [0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0],
-        [0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
-        [0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0],
-        [0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
-        [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1],
-        [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
 
-'''
-creates empty grid
-for row in range(12):
-    grid.append([])
-    for column in range(13):
-        grid[row].append(0)
+with open(r"C:\Users\bbuss\OneDrive\Documents\GitHub\MazeSolver\MazeSolver\patterns\default.txt", "r") as file:
+    grid = file.read()
+START_POS, GOAL_POS = None, None
+grid = [list(row) for row in grid.split("\n")]
 
-
-
-
-defaultMazeFile = open("./MazeSolver/patterns/default.txt", "r")
-for line in defaultMazeFile:
-    line = line.rstrip('\n').split(' ')
-    grid.append(line)
-'''
-
-
-def draw_grid(grid):
-    color_table = {
-        "WALL": (80, 80, 80),
-        "EMPTY": (237, 240, 252),
-        "GOAL": (0, 171, 28),
-        "START": (255, 0, 0),
-        "PATH": (220, 235, 113)
-    }
-
-    x, y = 0, 0
-    for i in range(ROWS):
-        for j in range(COLS):
-            cell = pygame.Rect(x + WIDTH*j, y + HEIGHT*i, WIDTH, HEIGHT)
-            cell_color = color_table.get(grid[i][j], color_table["EMPTY"])
-            draw_rect_with_border(screen, cell_color, cell, 1, (0, 0, 0))
+# Converting grid to required format
+for r in range(12):
+    for c in range(13):
+        if grid[r][c] == "S":
+            START_POS = r, c
+        if grid[r][c] == "G":
+            GOAL_POS = r, c
+        grid[r][c] = grid[r][c].replace(" ", "EMPTY").replace("G", "GOAL").replace("#", "WALL").replace("S", "START")
 
 
 def remove_path(grid):
@@ -172,12 +141,13 @@ def main():
                     print("cleared the array")
                     for r in range(12):
                         for c in range(13):
-                            grid[r][c] = 0
-
+                            grid[r][c] = "EMPTY"
                 if event.key == pygame.K_RETURN:
-                   # DFS_random(grid, START_POS, STOP_POS)
-                    path = CUR_SEARCH_MODE_FUNCTION(grid, START_POS, STOP_POS)
+                    path = A_star(grid, START_POS, GOAL_POS)
                     print(path)
+                    #for pos in path:
+                        #grid[pos[0]][pos[1]] = "PATH"
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # User clicks the mouse. Get the position
                 pos = pygame.mouse.get_pos()
@@ -185,28 +155,28 @@ def main():
                 row = pos[1] // (HEIGHT + MARGIN)
             # Set that location to one
                 if globIndex == 0:
-                    grid[row][column] = 1
+                    grid[row][column] = "WALL"
                     print("Click ", pos, "Grid coordinates: ", row, column)
                 elif globIndex == 1:
-                    grid[row][column] = 0
+                    grid[row][column] = "EMPTY"
                     print("Click ", pos, "Grid coordinates: ", row, column)
                 elif globIndex == 2:
                     for r in range(12):
                         for c in range(13):
-                            if grid[r][c] == 2:
-                                grid[r][c] = 0
+                            if grid[r][c] == "START":
+                                grid[r][c] = "EMPTY"
                             else:
-                                grid[row][column] = 2
-                                START_POS = grid[row][column]
+                                grid[row][column] = "START"
+                                START_POS = row, column
                     print("Click ", pos, "Grid coordinates: ", row, column)
                 elif globIndex == 3:
                     for r in range(12):
                         for c in range(13):
-                            if grid[r][c] == 3:
-                                grid[r][c] = 0
+                            if grid[r][c] == "GOAL":
+                                grid[r][c] = "EMPTY"
                             else:
-                                grid[row][column] = 3
-                                STOP_POS = grid[row][column]
+                                grid[row][column] = "GOAL"
+                                GOAL_POS = row, column
                     print("Click ", pos, "Grid coordinates: ", row, column)
 
             if event.type == pygame.QUIT:
@@ -214,17 +184,17 @@ def main():
                 sys.exit()
         for row in range(12):
             for column in range(13):
-                if grid[row][column] == 0:
+                if grid[row][column] == "EMPTY":
                     color = white
-                elif grid[row][column] == 1:
+                elif grid[row][column] == "WALL":
                     color = gray
-                elif grid[row][column] == 2:
+                elif grid[row][column] == "START":
                     color = green
-                    START_POS = grid[row][column]
-                elif grid[row][column] == 3:
+                    START_POS = row, column
+                elif grid[row][column] == "GOAL":
                     color = red
-                    STOP_POS = grid[row][column]
-                elif grid[row][column] == 4:
+                    GOAL_POS = row, column
+                elif grid[row][column] == "PATH":
                     color = blue
 
                 pygame.draw.rect(screen, color, [
