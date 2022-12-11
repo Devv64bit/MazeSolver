@@ -2,6 +2,7 @@ import pygame
 import sys
 from helper import *
 
+
 black = (0, 0, 0)
 white = (200, 200, 200)  # EMPTY
 gray = (90, 90, 90)
@@ -19,6 +20,7 @@ MARGIN = 5
 ROWS = WINDOW_WIDTH // WIDTH
 COLS = WINDOW_HEIGHT // HEIGHT
 START_POS, GOAL_POS = None, None
+
 
 #SEARCH_MODES = [
 #    ("DFS", DFS_random),
@@ -67,12 +69,12 @@ def save_Grid(grid):
                 GOAL_POS = r, c
             saveGrid[r][c] = saveGrid[r][c].replace("EMPTY", " ").replace("GOAL", "G").replace("WALL", "#").replace("START", "S")
     file = open("MazeSolver\patterns\save.txt", "w")
+    
     for r in range(12):
-        file.write("\n")
+        if r > 0:
+            file.write("\n")
         for c in range(13):
             file.write(saveGrid[r][c])
-
-
 
 def load_Saved_Grid():
     with open("MazeSolver\patterns\save.txt", "r") as file:
@@ -94,7 +96,6 @@ def load_Saved_Grid():
 
 def main():
     grid = load_Grid()
-    print(grid)
     global screen
     globIndex = -1
 
@@ -192,7 +193,8 @@ def main():
                 
                 if event.key == pygame.K_s:
                     print("saved grid")
-                
+                    save_Grid(grid)
+                    grid = load_Saved_Grid()
                 if event.key == pygame.K_l:
                     print("loaded grid")
                     grid = load_Saved_Grid()
@@ -254,23 +256,32 @@ def main():
         font = pygame.font.Font('freesansbold.ttf', 22)
         draw = font.render('Draw Mode:', True, white, black)
         controls = font.render('Controls:', True, white, black)
-        pressQ = font.render('Press Q to change draw mode', True, white, black)
-        clear = font.render('Press C to clear Maze', True, white, black)
-        pressEnter = font.render('Press Enter to Solve Maze', True, white, black)
+        pressQ = font.render('Press Q To Change Draw Mode', True, white, black)
+        clear = font.render('Press C To Clear Maze', True, white, black)
+        pressEnter = font.render('Press Enter To Solve Maze', True, white, black)
+        save = font.render('Press S To Save Maze', True, white, black)
+        load = font.render('Press L To Load Maze', True, white, black)
 
         contRect = controls.get_rect()
         pressQRect = pressQ.get_rect()
         clearRect = clear.get_rect()
         pressEnterRect = pressEnter.get_rect()
         drawRect = draw.get_rect()
+        SaveRect = save.get_rect()
+        LoadRect = load.get_rect()
 
         contRect.center = ((WINDOW_HEIGHT // 2) + 100,(WINDOW_WIDTH // 2) + 320)
         pressQRect.center = ((WINDOW_HEIGHT // 2) + 100,(WINDOW_WIDTH // 2) + 350)
         clearRect.center = ((WINDOW_HEIGHT // 2) + 100,(WINDOW_WIDTH // 2) + 380)
         pressEnterRect.center = ((WINDOW_HEIGHT // 2) + 100,(WINDOW_WIDTH // 2) + 410)
-        drawRect.center = ((WINDOW_HEIGHT // 2) - 300,(WINDOW_WIDTH // 2) + 320)
+        drawRect.center = ((WINDOW_HEIGHT // 2) - 270,(WINDOW_WIDTH // 2) + 320)
+        SaveRect.center = ((WINDOW_HEIGHT // 2) - 270,(WINDOW_WIDTH // 2) + 350)
+        LoadRect.center = ((WINDOW_HEIGHT // 2) - 270,(WINDOW_WIDTH // 2) + 380)
+        
 
         screen.blit(draw, drawRect)
+        screen.blit(save, SaveRect)
+        screen.blit(load, LoadRect)
         screen.blit(controls, contRect)
         screen.blit(pressQ, pressQRect)
         screen.blit(clear, clearRect)
