@@ -204,35 +204,36 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # User clicks the mouse. Get the position
                 pos = pygame.mouse.get_pos()
-                column = pos[0] // (WIDTH + MARGIN)
-                row = pos[1] // (HEIGHT + MARGIN)
-            # Set that location to one
-                if globIndex == 0:
-                    grid[row][column] = "WALL"
-                    print("Click ", pos, "Grid coordinates: ", row, column)
-                elif globIndex == 1:
-                    grid[row][column] = "EMPTY"
-                    print("Click ", pos, "Grid coordinates: ", row, column)
-                elif globIndex == 2:
-                    for r in range(12):
-                        for c in range(13):
-                            if grid[r][c] == "START":
-                                grid[r][c] = "EMPTY"
-                                grid[row][column] = "START"
-                            else:
-                                grid[row][column] = "START"
-                                START_POS = row, column
-                    print("Click ", pos, "Grid coordinates: ", row, column)
-                elif globIndex == 3:
-                    for r in range(12):
-                        for c in range(13):
-                            if grid[r][c] == "GOAL":
-                                grid[r][c] = "EMPTY"
-                                grid[row][column] = "GOAL"
-                            else:
-                                grid[row][column] = "GOAL"
-                                GOAL_POS = row, column
-                    print("Click ", pos, "Grid coordinates: ", row, column)
+                if pos[1] < 659:
+                    column = pos[0] // (WIDTH + MARGIN)
+                    row = pos[1] // (HEIGHT + MARGIN)
+                # Set that location to one
+                    if globIndex == 0:
+                        grid[row][column] = "WALL"
+                        print("Click ", pos, "Grid coordinates: ", row, column)
+                    elif globIndex == 1:
+                        grid[row][column] = "EMPTY"
+                        print("Click ", pos, "Grid coordinates: ", row, column)
+                    elif globIndex == 2:
+                        for r in range(12):
+                            for c in range(13):
+                                if grid[r][c] == "START":
+                                    grid[r][c] = "EMPTY"
+                                    grid[row][column] = "START"
+                                else:
+                                    grid[row][column] = "START"
+                                    START_POS = row, column
+                        print("Click ", pos, "Grid coordinates: ", row, column)
+                    elif globIndex == 3:
+                        for r in range(12):
+                            for c in range(13):
+                                if grid[r][c] == "GOAL":
+                                    grid[r][c] = "EMPTY"
+                                    grid[row][column] = "GOAL"
+                                else:
+                                    grid[row][column] = "GOAL"
+                                    GOAL_POS = row, column
+                        print("Click ", pos, "Grid coordinates: ", row, column)
 
             if event.type == pygame.QUIT:
                 pygame.quit()
