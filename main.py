@@ -27,7 +27,7 @@ pygame.display.set_caption("Maze Runners")   #sets the name of the window
 
 
 def load_Grid():
-    with open("MazeSolver\patterns\default.txt", "r") as file:    #opens default text file
+    with open("default.txt", "r") as file:    #opens default text file
         grid = file.read()
     START_POS, GOAL_POS = None, None
     grid = [list(row) for row in grid.split("\n")] #puts each line into an array and splits it by the new lines
@@ -64,7 +64,7 @@ def save_Grid(grid):
         for c in range(13):
             saveGrid[r][c] = saveGrid[r][c].replace("EMPTY", " ").replace(         
                 "GOAL", "G").replace("WALL", "#").replace("START", "S")       #converts the walls to #, the empty to spaces, the goal to G and the start to S
-    file = open("MazeSolver\patterns\save.txt", "w") #opens the save file
+    file = open("save.txt", "w") #opens the save file
 
     for r in range(12):   #goes through the entire grid arrray
         if r > 0:
